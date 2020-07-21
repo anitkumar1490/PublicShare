@@ -5,16 +5,18 @@ import java.util.*;
 class ValidParenthesis {
 
     public static boolean isBalancedValid(String exp){
-        List<Character> stack = new ArrayList<>();
+        if (exp.isEmpty())
+            return true;
+        Stack<Character> stack = new Stack<Character>();
         for(char c: exp.toCharArray()){
             if(c == '[' || c == '$'){
-                stack.add(0,c);
+                stack.push(c);
             }else{
                 if(stack.isEmpty())
                     return false;
-                char tempFromStack = stack.get(0);
+                char tempFromStack = stack.peek();
                 if(((c == ']' || c == '$')  && (tempFromStack == '[' || tempFromStack == '$'))){
-                    stack.remove(0);
+                    stack.pop();
                 }else{
                     return false;
                 }
@@ -22,7 +24,7 @@ class ValidParenthesis {
         }
         if(!stack.isEmpty()){
             int count = 0;
-            char temp = stack.get(0);
+            char temp = stack.peek();
             if((temp == '$' || temp == '[' || temp == ']') && count < 2){
                 count++;
                 return true;
